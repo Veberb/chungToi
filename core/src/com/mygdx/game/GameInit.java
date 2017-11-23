@@ -31,6 +31,9 @@ public class GameInit  extends ApplicationAdapter {
     Sprite cross1,cross2,cross3,cross4,cross5;
     Sprite circle1,circle2,circle3,circle4;
 
+    Texture imgPoint1, imgPoint2, imgPoint3, imgPoint4;
+    Sprite point1,point2,point3,point4;
+
     Texture imgwon,imglost,imgover;
     Sprite gamewon,gamelost,gameover;
     @Override
@@ -71,6 +74,11 @@ public class GameInit  extends ApplicationAdapter {
         gamelost=new Sprite(imglost);
         gameover=new Sprite(imgover);
 
+
+        imgPoint1 = new Texture("point.png");
+        point1 = new Sprite(imgPoint1);
+
+
         camera=new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         boardEntry=new int[9];
@@ -80,6 +88,8 @@ public class GameInit  extends ApplicationAdapter {
         }
         count=0;
         flag=0;
+
+
     }
 
     @Override
@@ -93,10 +103,12 @@ public class GameInit  extends ApplicationAdapter {
         board.draw(batch);
         batch.end();
 
+        point1.setPosition(85, 289);
+
         //event handled on mouse click
         if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-            int Ypos=Gdx.graphics.getHeight()-Gdx.input.getY();
-            int Xpos=Gdx.input.getX();
+            int Ypos=Gdx.graphics.getHeight()-Gdx.input.getY()-35;
+            int Xpos=Gdx.input.getX()-25;
 
             if(count==0){
                 flagcross1=true;
@@ -181,6 +193,8 @@ public class GameInit  extends ApplicationAdapter {
         //drawing elements cross and circle
         boardEntry[i]=-1;
         batch.begin();
+
+        point1.draw(batch);
         if(flagcross1==true){
             cross1.draw(batch);
             camera.update();
