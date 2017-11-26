@@ -4,7 +4,7 @@ package com.mygdx.game;
  * Created by Matheus on 25/11/17.
  */
 
-public class mark {
+public class Mark {
 
     int quadrant;
     String mark;

@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Matheus on 23/11/17.
  */
@@ -22,6 +25,8 @@ public class GameInit  extends ApplicationAdapter {
     OrthographicCamera camera;
     int[] boardEntry;
     int flag;
+    Board Gameboard = new Board();
+
 
     boolean flagcross1=false,flagcross2=false,flagcross3=false,flagcross4=false,flagcross5=false;
     boolean flagcircle1=false,flagcircle2=false,flagcircle3=false,flagcircle4=false;
@@ -31,11 +36,13 @@ public class GameInit  extends ApplicationAdapter {
     Sprite cross1,cross2,cross3,cross4,cross5;
     Sprite circle1,circle2,circle3,circle4;
 
-    Texture imgPoint1, imgPoint2, imgPoint3, imgPoint4;
-    Sprite point1,point2,point3,point4;
-
     Texture imgwon,imglost,imgover;
     Sprite gamewon,gamelost,gameover;
+
+    Map<Integer, CenterPosition> centerPos = new HashMap<Integer, CenterPosition>();
+
+    Map<Integer, Mark> marks = new HashMap<Integer, Mark>();
+
     @Override
     public void create () {
 
@@ -75,10 +82,6 @@ public class GameInit  extends ApplicationAdapter {
         gameover=new Sprite(imgover);
 
 
-        imgPoint1 = new Texture("point.png");
-        point1 = new Sprite(imgPoint1);
-
-
         camera=new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         boardEntry=new int[9];
@@ -88,6 +91,8 @@ public class GameInit  extends ApplicationAdapter {
         }
         count=0;
         flag=0;
+
+        setCenterPos();
 
 
     }
@@ -103,90 +108,73 @@ public class GameInit  extends ApplicationAdapter {
         board.draw(batch);
         batch.end();
 
-        point1.setPosition(85, 289);
 
-        //event handled on mouse click
         if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-            int Ypos=Gdx.graphics.getHeight()-Gdx.input.getY()-35;
-            int Xpos=Gdx.input.getX()-25;
+            int Ypos=Gdx.graphics.getHeight()-Gdx.input.getY();
+            int Xpos=Gdx.input.getX();
+
+            setPosition(Ypos, Xpos);
+            CenterPosition center = centerPos.get(i);
 
             if(count==0){
                 flagcross1=true;
-                cross1.setPosition(Xpos, Ypos);
+                setMark(i, "cross", count);
+                cross1.setPosition(center.getX(), center.getY());
                 count++;
             }
             else if(count==1){
                 flagcircle1=true;
-                circle1.setPosition(Xpos, Ypos);
+                setMark(i, "circle", count);
+                circle1.setPosition(center.getX(), center.getY());
                 count++;
             }
             else if(count==2){
                 flagcross2=true;
-                cross2.setPosition(Xpos, Ypos);
+                setMark(i, "cross", count);
+                cross2.setPosition(center.getX(), center.getY());
                 count++;
             }
             else if(count==3){
                 flagcircle2=true;
-                circle2.setPosition(Xpos, Ypos);
+                setMark(i, "circle", count);
+                circle2.setPosition(center.getX(), center.getY());
                 count++;
             }
             else if(count==4){
                 flagcross3=true;
-                cross3.setPosition(Xpos, Ypos);
+                setMark(i, "cross", count);
+                cross3.setPosition(center.getX(), center.getY());
                 count++;
             }
             else if(count==5){
                 flagcircle3=true;
-                circle3.setPosition(Xpos, Ypos);
+                setMark(i, "circle", count);
+                circle3.setPosition(center.getX(), center.getY());
                 count++;
             }
             else if(count==6){
                 flagcross4=true;
-                cross4.setPosition(Xpos, Ypos);
+                setMark(i, "cross", count);
+                cross4.setPosition(center.getX(), center.getY());
                 count++;
             }
             else if(count==7){
                 flagcircle4=true;
-                circle4.setPosition(Xpos, Ypos);
+                setMark(i, "circle", count);
+                circle4.setPosition(center.getX(), center.getY());
                 count++;
             }
-            else if(count==8){
-                flagcross5=true;
-                cross5.setPosition(Xpos, Ypos);
+            else if(count==8) {
+                flagcross5 = true;
+                setMark(i, "cross", count);
+                cross5.setPosition(center.getX(), center.getY());
                 count++;
             }
 
-            //setting position i in boardentry array
-            if((Xpos>0)&&(Xpos<200)&&(Ypos>0)&&(Ypos<200)){
-                i=6;
-            }
-            else if((Xpos>0)&&(Xpos<200)&&(Ypos>200)&&(Ypos<400)){
-                i=3;
-            }
-            else if((Xpos>0)&&(Xpos<200)&&(Ypos>400)&&(Ypos<400)){
-                i=0;
-            }
-            else if((Xpos>200)&&(Xpos<400)&&(Ypos>0)&&(Ypos<200)){
-                i=7;
-            }
-            else if((Xpos>200)&&(Xpos<400)&&(Ypos>200)&&(Ypos<400)){
-                i=4;
-            }
-            else if((Xpos>200)&&(Xpos<400)&&(Ypos>400)&&(Ypos<600)){
-                i=1;
-            }
-            else if((Xpos>400)&&(Xpos<600)&&(Ypos>0)&&(Ypos<200)){
-                i=8;
-            }
-            else if((Xpos>400)&&(Xpos<600)&&(Ypos>200)&&(Ypos<400)){
-                i=5;
-            }
-            else if((Xpos>400)&&(Xpos<600)&&(Ypos>400)&&(Ypos<600)){
-                i=2;
-            }
+            //TODO fazer um else, para nao marcar quando sair das dimensões
 
-            System.out.println("x="+Xpos);
-            System.out.println("y="+Ypos);
+//            System.out.println("x="+Xpos);
+  //          System.out.println("y="+Ypos);
 
         }
 
@@ -194,58 +182,97 @@ public class GameInit  extends ApplicationAdapter {
         boardEntry[i]=-1;
         batch.begin();
 
-        point1.draw(batch);
-        if(flagcross1==true){
+        if(flagcross1){
             cross1.draw(batch);
             camera.update();
             boardEntry[i]=1;
         }
-        if(flagcircle1==true){
+        if(flagcircle1){
             circle1.draw(batch);
             camera.update();
             boardEntry[i]=0;
         }
-        if(flagcross2==true){
+        if(flagcross2){
             cross2.draw(batch);
             camera.update();
             boardEntry[i]=1;
         }
-        if(flagcircle2==true){
+        if(flagcircle2){
             circle2.draw(batch);
             camera.update();
             boardEntry[i]=0;
         }
-        if(flagcross3==true){
+        if(flagcross3){
             cross3.draw(batch);
             camera.update();
             boardEntry[i]=1;
         }
-        if(flagcircle3==true){
+        if(flagcircle3){
             circle3.draw(batch);
             camera.update();
             boardEntry[i]=0;
         }
-        if(flagcross4==true){
+        if(flagcross4){
             cross4.draw(batch);
             camera.update();
             boardEntry[i]=1;
         }
-        if(flagcircle4==true){
+        if(flagcircle4){
             circle4.draw(batch);
             camera.update();
             boardEntry[i]=0;
         }
-        if(flagcross5==true){
+        if(flagcross5){
             cross5.draw(batch);
             camera.update();
             boardEntry[i]=1;
         }
 
-        winstatus();
+        //winstatus();
         batch.end();
 
 
     }
+
+    private void setPosition(int ypos, int xpos) {
+        if((xpos >0)&&(xpos <200)&&(ypos >0)&&(ypos <200)){
+            System.out.println("Quadrante 7");
+            i=6;
+        }
+        else if((xpos >0)&&(xpos <200)&&(ypos >200)&&(ypos <400)){
+            System.out.println("Quadrante 4");
+            i=3;
+        }
+        else if((xpos >0)&&(xpos <200)&&(ypos >400)&&(ypos <600)){
+            System.out.println("Quadrante 1");
+            i=0;
+        }
+        else if((xpos >200)&&(xpos <400)&&(ypos >0)&&(ypos <200)){
+            System.out.println("Quadrante 8");
+            i=7;
+        }
+        else if((xpos >200)&&(xpos <400)&&(ypos >200)&&(ypos <400)){
+            System.out.println("Quadrante 5");
+            i=4;
+        }
+        else if((xpos >200)&&(xpos <400)&&(ypos >400)&&(ypos <600)){
+            System.out.println("Quadrante 2");
+            i=1;
+        }
+        else if((xpos >400)&&(xpos <600)&&(ypos >0)&&(ypos <200)){
+            System.out.println("Quadrante 9");
+            i=8;
+        }
+        else if((xpos >400)&&(xpos <600)&&(ypos >200)&&(ypos <400)){
+            System.out.println("Quadrante 6");
+            i=5;
+        }
+        else if((xpos >400)&&(xpos <600)&&(ypos >400)&&(ypos <600)){
+            System.out.println("Quadrante 3");
+            i=2;
+        }
+    }
+
 
     public void winstatus(){
 
@@ -434,5 +461,40 @@ public class GameInit  extends ApplicationAdapter {
         imglost.dispose();
         imgover.dispose();
         batch.dispose();
+    }
+
+
+    public void setCenterPos() {
+
+        this.centerPos.put(0,populaObjeto(65,465));
+        this.centerPos.put(1,populaObjeto(265,465));
+        this.centerPos.put(2,populaObjeto(465,465));
+        this.centerPos.put(3,populaObjeto(65,265));
+        this.centerPos.put(4,populaObjeto(265,265));
+        this.centerPos.put(5,populaObjeto(465,265));
+        this.centerPos.put(6,populaObjeto(65,65));
+        this.centerPos.put(7,populaObjeto(265,65));
+        this.centerPos.put(8,populaObjeto(465,65));
+
+    }
+
+    public CenterPosition populaObjeto(Integer x, Integer y) {
+        CenterPosition pos = new CenterPosition();
+        pos.setX(x);
+        pos.setY(y);
+
+        return pos;
+    }
+
+    public void setMark (int quadrant, String type, int played) {
+        this.marks.put(quadrant, populateMark(quadrant, type, played));
+    }
+
+    private Mark populateMark (int quadrant, String type, int played) {
+        Mark mark = new Mark();
+        mark.setMark(type);
+        mark.setQuadrant(quadrant);
+        mark.setPlay(played);
+        return mark;
     }
 }
