@@ -11,6 +11,14 @@ public class Mark {
     int play;
     int direction;
 
+
+    public Mark(int quadrant, String mark, int play, int direction) {
+        this.quadrant = quadrant;
+        this.mark = mark;
+        this.play = play;
+        this.direction = direction;
+    }
+
     public int getQuadrant() {
         return quadrant;
     }

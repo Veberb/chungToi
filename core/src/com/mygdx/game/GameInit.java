@@ -25,7 +25,6 @@ public class GameInit  extends ApplicationAdapter {
     OrthographicCamera camera;
     int[] boardEntry;
     int flag;
-    Board Gameboard = new Board();
 
 
     boolean flagcross1=false,flagcross2=false,flagcross3=false,flagcross4=false,flagcross5=false;
@@ -93,7 +92,7 @@ public class GameInit  extends ApplicationAdapter {
         flag=0;
 
         setCenterPos();
-
+        initMarks();
 
     }
 
@@ -115,6 +114,10 @@ public class GameInit  extends ApplicationAdapter {
 
             setPosition(Ypos, Xpos);
             CenterPosition center = centerPos.get(i);
+
+            if (marks.get(i).getPlay() != -1){
+                return;
+            }
 
             if(count==0){
                 flagcross1=true;
@@ -179,33 +182,27 @@ public class GameInit  extends ApplicationAdapter {
         }
 
         //drawing elements cross and circle
-        boardEntry[i]=-1;
         batch.begin();
 
         if(flagcross1){
             cross1.draw(batch);
             camera.update();
-            boardEntry[i]=1;
         }
         if(flagcircle1){
             circle1.draw(batch);
             camera.update();
-            boardEntry[i]=0;
         }
         if(flagcross2){
             cross2.draw(batch);
             camera.update();
-            boardEntry[i]=1;
         }
         if(flagcircle2){
             circle2.draw(batch);
             camera.update();
-            boardEntry[i]=0;
         }
         if(flagcross3){
             cross3.draw(batch);
             camera.update();
-            boardEntry[i]=1;
         }
         if(flagcircle3){
             circle3.draw(batch);
@@ -215,20 +212,17 @@ public class GameInit  extends ApplicationAdapter {
         if(flagcross4){
             cross4.draw(batch);
             camera.update();
-            boardEntry[i]=1;
         }
         if(flagcircle4){
             circle4.draw(batch);
             camera.update();
-            boardEntry[i]=0;
         }
         if(flagcross5){
             cross5.draw(batch);
             camera.update();
-            boardEntry[i]=1;
         }
 
-        //winstatus();
+        winstatus();
         batch.end();
 
 
@@ -281,168 +275,43 @@ public class GameInit  extends ApplicationAdapter {
         boolean wincross=false;
         boolean wincircle=false;
 
-        if((boardEntry[0]==boardEntry[1])&&(boardEntry[1]==boardEntry[2])){
-            if((boardEntry[0]==1)&&(boardEntry[1]==1)&&(boardEntry[2]==1)){
-                wincross=true;
-                System.out.println("player1 wins");
-                System.out.println("game over");
-                gamewon.setSize(600, 200);
-                gamewon.setPosition(0, 0);
-                gameover.setSize(600, 400);
-                gameover.setPosition(0, 200);
-                gamewon.draw(batch);
-                gameover.draw(batch);
-            }
-            else if((boardEntry[0]==0)&&(boardEntry[1]==0)&&(boardEntry[2]==0)){
-                wincircle=true;
-                System.out.println("player2 wins");
-                gamelost.setSize(600, 600);
-                gamelost.setPosition(0, 0);
-                gamelost.draw(batch);
-            }
+        if((this.marks.get(0).getMark().equalsIgnoreCase(this.marks.get(1).getMark())) && (this.marks.get(0).getMark().equalsIgnoreCase(this.marks.get(2).getMark()))) {
+            printWinner();
         }
 
-        if((boardEntry[3]==boardEntry[4])&&(boardEntry[4]==boardEntry[5])){
-            if((boardEntry[3]==1)&&(boardEntry[4]==1)&&(boardEntry[5]==1)){
-                wincross=true;
-                System.out.println("player1 wins");
-                gamewon.setSize(600, 200);
-                gamewon.setPosition(0, 0);
-                gameover.setSize(600, 400);
-                gameover.setPosition(0, 200);
-                gamewon.draw(batch);
-                gameover.draw(batch);
-            }
-            else if((boardEntry[3]==0)&&(boardEntry[4]==0)&&(boardEntry[5]==0)){
-                wincircle=true;
-                System.out.println("player2 wins");
-                gamelost.setSize(600, 600);
-                gamelost.setPosition(0, 0);
-                gamelost.draw(batch);
-
-            }
+        if((this.marks.get(0).getMark().equalsIgnoreCase(this.marks.get(3).getMark())) && (this.marks.get(0).getMark().equalsIgnoreCase(this.marks.get(6).getMark()))) {
+            printWinner();
         }
 
-        if((boardEntry[6]==boardEntry[7])&&(boardEntry[7]==boardEntry[8])){
-            if((boardEntry[6]==1)&&(boardEntry[7]==1)&&(boardEntry[8]==1)){
-                wincross=true;
-                System.out.println("player1 wins");
-                gamewon.setSize(600, 200);
-                gamewon.setPosition(0, 0);
-                gameover.setSize(600, 400);
-                gameover.setPosition(0, 200);
-                gamewon.draw(batch);
-                gameover.draw(batch);
-            }
-            else if((boardEntry[6]==0)&&(boardEntry[7]==0)&&(boardEntry[8]==0)){
-                wincircle=true;
-                System.out.println("player2 wins");
-                gamelost.setSize(600, 600);
-                gamelost.setPosition(0, 0);
-                gamelost.draw(batch);
-            }
+        if((this.marks.get(1).getMark().equalsIgnoreCase(this.marks.get(4).getMark())) && (this.marks.get(1).getMark().equalsIgnoreCase(this.marks.get(7).getMark()))) {
+            printWinner();
         }
 
-        if((boardEntry[0]==boardEntry[3])&&(boardEntry[3]==boardEntry[6])){
-            if((boardEntry[0]==1)&&(boardEntry[3]==1)&&(boardEntry[6]==1)){
-                wincross=true;
-                System.out.println("player1 wins");
-                gamewon.setSize(600, 200);
-                gamewon.setPosition(0, 0);
-                gameover.setSize(600, 400);
-                gameover.setPosition(0, 200);
-                gamewon.draw(batch);
-                gameover.draw(batch);
-            }
-            else if((boardEntry[0]==0)&&(boardEntry[3]==0)&&(boardEntry[6]==0)){
-                wincircle=true;
-                System.out.println("player2 wins");
-                gamelost.setSize(600, 600);
-                gamelost.setPosition(0, 0);
-                gamelost.draw(batch);
-            }
+        if((this.marks.get(2).getMark().equalsIgnoreCase(this.marks.get(5).getMark())) && (this.marks.get(2).getMark().equalsIgnoreCase(this.marks.get(8).getMark()))) {
+            printWinner();
         }
 
-        if((boardEntry[1]==boardEntry[4])&&(boardEntry[4]==boardEntry[7])){
-            if((boardEntry[1]==1)&&(boardEntry[4]==1)&&(boardEntry[7]==1)){
-                wincross=true;
-                System.out.println("player1 wins");
-                gamewon.setSize(600, 200);
-                gamewon.setPosition(0, 0);
-                gameover.setSize(600, 400);
-                gameover.setPosition(0, 200);
-                gamewon.draw(batch);
-                gameover.draw(batch);
-            }
-            else if((boardEntry[1]==0)&&(boardEntry[4]==0)&&(boardEntry[7]==0)){
-                wincircle=true;
-                System.out.println("player2 wins");
-                gamelost.setSize(600, 600);
-                gamelost.setPosition(0, 0);
-                gamelost.draw(batch);
-            }
+        if((this.marks.get(3).getMark().equalsIgnoreCase(this.marks.get(4).getMark())) && (this.marks.get(3).getMark().equalsIgnoreCase(this.marks.get(5).getMark()))) {
+            printWinner();
         }
 
-        if((boardEntry[2]==boardEntry[5])&&(boardEntry[5]==boardEntry[8])){
-            if((boardEntry[2]==1)&&(boardEntry[5]==1)&&(boardEntry[8]==1)){
-                wincross=true;
-                System.out.println("player1 wins");
-                gamewon.setSize(600, 200);
-                gamewon.setPosition(0, 0);
-                gameover.setSize(600, 400);
-                gameover.setPosition(0, 200);
-                gamewon.draw(batch);
-                gameover.draw(batch);
-            }
-            else if((boardEntry[2]==0)&&(boardEntry[5]==0)&&(boardEntry[8]==0)){
-                wincircle=true;
-                System.out.println("player2 wins");
-                gamelost.setSize(600, 600);
-                gamelost.setPosition(0, 0);
-                gamelost.draw(batch);
-            }
+        if((this.marks.get(6).getMark().equalsIgnoreCase(this.marks.get(7).getMark())) && (this.marks.get(6).getMark().equalsIgnoreCase(this.marks.get(8).getMark()))) {
+            printWinner();
         }
 
-        if((boardEntry[0]==boardEntry[4])&&(boardEntry[4]==boardEntry[8])){
-            if((boardEntry[0]==1)&&(boardEntry[4]==1)&&(boardEntry[8]==1)){
-                wincross=true;
-                System.out.println("player1 wins");
-                gamewon.setSize(600, 200);
-                gamewon.setPosition(0, 0);
-                gameover.setSize(600, 400);
-                gameover.setPosition(0, 200);
-                gamewon.draw(batch);
-                gameover.draw(batch);
-            }
-            else if((boardEntry[0]==0)&&(boardEntry[4]==0)&&(boardEntry[8]==0)){
-                wincircle=true;
-                System.out.println("player2 wins");
-                gamelost.setSize(600, 600);
-                gamelost.setPosition(0, 0);
-                gamelost.draw(batch);
-            }
-        }
+    }
 
-        if((boardEntry[2]==boardEntry[4])&&(boardEntry[4]==boardEntry[6])){
-            if((boardEntry[2]==1)&&(boardEntry[4]==1)&&(boardEntry[6]==1)){
-                wincross=true;
-                System.out.println("player1 wins");
-                gamewon.setSize(600, 200);
-                gamewon.setPosition(0, 0);
-                gameover.setSize(600, 400);
-                gameover.setPosition(0, 200);
-                gamewon.draw(batch);
-                gameover.draw(batch);
-            }
-            else if((boardEntry[2]==0)&&(boardEntry[4]==0)&&(boardEntry[6]==0)){
-                wincircle=true;
-                System.out.println("player2 wins");
-                gamelost.setSize(600, 600);
-                gamelost.setPosition(0, 0);
-                gamelost.draw(batch);
-            }
-        }
-
+    private void printWinner() {
+        boolean wincross;
+        wincross=true;
+        System.out.println("player1 wins");
+        System.out.println("game over");
+        gamewon.setSize(600, 200);
+        gamewon.setPosition(0, 0);
+        gameover.setSize(600, 400);
+        gameover.setPosition(0, 200);
+        gamewon.draw(batch);
+        gameover.draw(batch);
     }
 
     @Override
@@ -491,10 +360,13 @@ public class GameInit  extends ApplicationAdapter {
     }
 
     private Mark populateMark (int quadrant, String type, int played) {
-        Mark mark = new Mark();
-        mark.setMark(type);
-        mark.setQuadrant(quadrant);
-        mark.setPlay(played);
+        Mark mark = new Mark(quadrant, type, played, -1);
         return mark;
+    }
+
+    private void initMarks () {
+        for (int x = 0 ; x < 9; x++) {
+            this.marks.put(x, new Mark(i, String.valueOf(x), -1, -1));
+        }
     }
 }
