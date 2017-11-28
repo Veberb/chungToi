@@ -268,9 +268,7 @@ public class GameInit  extends ApplicationAdapter {
     }
 
 
-    public void winstatus(){
-
-        //checking the win status
+    private void winstatus(){
 
         boolean wincross=false;
         boolean wincircle=false;
@@ -333,7 +331,7 @@ public class GameInit  extends ApplicationAdapter {
     }
 
 
-    public void setCenterPos() {
+    private void setCenterPos() {
 
         this.centerPos.put(0,populaObjeto(65,465));
         this.centerPos.put(1,populaObjeto(265,465));
@@ -347,7 +345,7 @@ public class GameInit  extends ApplicationAdapter {
 
     }
 
-    public CenterPosition populaObjeto(Integer x, Integer y) {
+    private CenterPosition populaObjeto(Integer x, Integer y) {
         CenterPosition pos = new CenterPosition();
         pos.setX(x);
         pos.setY(y);
@@ -355,7 +353,7 @@ public class GameInit  extends ApplicationAdapter {
         return pos;
     }
 
-    public void setMark (int quadrant, String type, int played) {
+    private void setMark (int quadrant, String type, int played) {
         this.marks.put(quadrant, populateMark(quadrant, type, played));
     }
 
