@@ -42,24 +42,26 @@ public class GameInit  extends ApplicationAdapter {
 
     Map<Integer, Mark> marks = new HashMap<Integer, Mark>();
 
+    Boolean telaInicial = true;
+
     @Override
     public void create () {
 
         batch = new SpriteBatch();
-        img = new Texture("tictactoe.jpg");
+        img = new Texture("randy.png");
         board=new Sprite(img);
         board.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        imgcross1=new Texture("cross.png");
-        imgcross2=new Texture("cross.png");
-        imgcross3=new Texture("cross.png");
-        imgcross4=new Texture("cross.png");
-        imgcross5=new Texture("cross.png");
+        imgcross1=new Texture("cartman.png");
+        imgcross2=new Texture("cartman.png");
+        imgcross3=new Texture("cartman.png");
+        imgcross4=new Texture("cartman.png");
+        imgcross5=new Texture("cartman.png");
 
-        imgcircle1=new Texture("circle.png");
-        imgcircle2=new Texture("circle.png");
-        imgcircle3=new Texture("circle.png");
-        imgcircle4=new Texture("circle.png");
+        imgcircle1=new Texture("kenny.png");
+        imgcircle2=new Texture("kenny.png");
+        imgcircle3=new Texture("kenny.png");
+        imgcircle4=new Texture("kenny.png");
 
         imgwon=new Texture("gamewon.jpg");
         imglost=new Texture("lostgame.jpg");
@@ -107,8 +109,9 @@ public class GameInit  extends ApplicationAdapter {
         board.draw(batch);
         batch.end();
 
+        verificaTelaInicial();
 
-        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+        if( !telaInicial && Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
             int Ypos=Gdx.graphics.getHeight()-Gdx.input.getY();
             int Xpos=Gdx.input.getX();
 
@@ -226,6 +229,13 @@ public class GameInit  extends ApplicationAdapter {
         batch.end();
 
 
+    }
+
+    public void verificaTelaInicial(){
+        if(telaInicial && Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+            telaInicial = false;
+            board = new Sprite(new Texture("tictactoe.jpg"));
+        }
     }
 
     private void setPosition(int ypos, int xpos) {
